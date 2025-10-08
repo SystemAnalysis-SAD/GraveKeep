@@ -14,7 +14,7 @@ export default function HomeMain() {
     <div className="h-screen w-full">
       <NavBar setLoginComponentVisible={setIsVisible} />
       <Home />
-      {isVisible && <Login setIsVisible={setIsVisible} />}
+      {isVisible && <Login setIsVisible={setIsVisible} isVisible={isVisible} />}
       <Footer />
     </div>
   );

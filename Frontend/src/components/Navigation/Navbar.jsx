@@ -1,8 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 
 export default function NavBar({ setLoginComponentVisible }) {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden"; // 🚫 disable scroll
+    } else {
+      document.body.style.overflow = "auto"; // ✅ re-enable scroll
+    }
+
+    // Cleanup if the component unmounts
+    return () => (document.body.style.overflow = "auto");
+  }, [menuOpen]);
 
   return (
     <>

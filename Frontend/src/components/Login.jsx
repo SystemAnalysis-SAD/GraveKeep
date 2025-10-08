@@ -1,5 +1,5 @@
 import { useAuth } from "../context/AuthContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
@@ -11,7 +11,7 @@ import {
   FaLock,
 } from "react-icons/fa";
 
-export default function Login({ setIsVisible }) {
+export default function Login({ setIsVisible, isVisible }) {
   const [loginData, setLoginData] = useState({
     admin_username: "",
     admin_password: "",
@@ -45,6 +45,17 @@ export default function Login({ setIsVisible }) {
     const { name, value } = e.target;
     setLoginData((prev) => ({ ...prev, [name]: value }));
   };
+
+  useEffect(() => {
+    if (isVisible) {
+      document.body.style.overflow = "hidden"; // 🚫 disable scroll
+    } else {
+      document.body.style.overflow = "auto"; // ✅ re-enable scroll
+    }
+
+    // Cleanup if the component unmounts
+    return () => (document.body.style.overflow = "auto");
+  }, [isVisible]);
 
   return (
     <>
