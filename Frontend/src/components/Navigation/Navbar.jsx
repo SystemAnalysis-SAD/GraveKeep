@@ -97,7 +97,7 @@ export default function NavBar({ setLoginComponentVisible }) {
             <div className="w-full pr-4 pt-3 flex items-end justify-end">
               <button
                 onClick={() => setMenuOpen(false)}
-                className="text-white md:hidden text-2xl p-2 hover:text-emerald-400 transition-colors z-1100"
+                className="text-white md:hidden text-3xl p-2 hover:text-emerald-400 transition-colors z-1100"
               >
                 ✕
               </button>
