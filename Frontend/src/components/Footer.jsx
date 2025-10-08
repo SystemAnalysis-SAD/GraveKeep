@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <FaLeaf className="text-2xl text-emerald-500" />
+              <img src="_logo.png" alt="logo" className="w-12 h-12" />
               <span className="text-xl font-bold text-white">GraveKeep</span>
             </div>
             <p className="text-gray-400 text-sm">
@@ -21,7 +21,7 @@ export default function Footer() {
             <ul className="space-y-2 text-gray-400 text-sm">
               <li>
                 <a
-                  href="#"
+                  href="/"
                   className="hover:text-emerald-400 transition-colors"
                 >
                   Home
@@ -29,7 +29,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/memorial"
                   className="hover:text-emerald-400 transition-colors"
                 >
                   Search
@@ -37,7 +37,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/about"
                   className="hover:text-emerald-400 transition-colors"
                 >
                   About
@@ -45,7 +45,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/contact"
                   className="hover:text-emerald-400 transition-colors"
                 >
                   Contact
