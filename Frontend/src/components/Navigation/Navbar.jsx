@@ -61,7 +61,7 @@ export default function NavBar({ setLoginComponentVisible }) {
 
         {!menuOpen && (
           <button
-            className="p-2 md:hidden text-white hover:text-emerald-400 transition-colors z-1000"
+            className="py-2 md:hidden text-white hover:text-emerald-400 transition-colors z-1000"
             onClick={() => setMenuOpen(true)}
           >
             <GiHamburgerMenu className="text-3xl" />
