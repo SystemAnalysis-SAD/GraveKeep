@@ -59,19 +59,12 @@ export default function NavBar({ setLoginComponentVisible }) {
           </button>
         </div>
 
-        {!menuOpen ? (
+        {!menuOpen && (
           <button
             className="p-2 md:hidden text-white hover:text-emerald-400 transition-colors z-1000"
             onClick={() => setMenuOpen(true)}
           >
             <GiHamburgerMenu className="text-3xl" />
-          </button>
-        ) : (
-          <button
-            onClick={() => setMenuOpen(false)}
-            className="text-white md:hidden text-2xl p-2 hover:text-emerald-400 transition-colors z-1000"
-          >
-            ✕
           </button>
         )}
       </div>
@@ -101,8 +94,16 @@ export default function NavBar({ setLoginComponentVisible }) {
               menuOpen ? "opacity-100 delay-200" : "opacity-0"
             }`}
           >
+            <div className="w-full pr-4 pt-3 flex items-end justify-end">
+              <button
+                onClick={() => setMenuOpen(false)}
+                className="text-white md:hidden text-2xl p-2 hover:text-emerald-400 transition-colors z-1100"
+              >
+                ✕
+              </button>
+            </div>
             {/* Menu Items */}
-            <div className="flex-1 flex flex-col justify-start pt-10 items-center gap-2 px-6">
+            <div className="flex-1 flex flex-col justify-start  items-center gap-2 px-6">
               <button
                 onClick={() => setMenuOpen(false)}
                 className="w-full text-white text-xl font-semibold hover:text-emerald-400 transition-all duration-300 py-4 px-6 rounded-xl hover:bg-emerald-400/10 border border-transparent hover:border-emerald-400/30 transform hover:scale-105 group"
