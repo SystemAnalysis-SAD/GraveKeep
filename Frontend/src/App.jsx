@@ -1,10 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./api/auth";
-import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
-import Dashboard from "./pages/Auth/Dashboard";
+import Dashboard from "./pages/Dashboard";
 import PublicRoute from "./api/PublicRoute,";
+import HomeMain from "./pages/Home/Home_Main";
 
 export default function App() {
   return (
@@ -12,10 +12,10 @@ export default function App() {
       <Router>
         <Routes>
           <Route
-            path="/login"
+            path="/"
             element={
               <PublicRoute>
-                <Login />
+                <HomeMain />
               </PublicRoute>
             }
           />

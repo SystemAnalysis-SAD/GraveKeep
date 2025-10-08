@@ -1,4 +1,4 @@
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -24,6 +24,7 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
+    document.title = "Gravekeep - Dashboard";
     const fetchData = async () => {
       try {
         const res = await axios.get("http://localhost:5000/dashboard", {
@@ -40,7 +41,7 @@ export default function Dashboard() {
 
         if (err.response?.status === 401) {
           logout();
-          navigate("/login");
+          navigate("/");
         }
       }
     };

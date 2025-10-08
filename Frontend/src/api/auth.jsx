@@ -5,7 +5,7 @@ const ProtectedRoute = () => {
   const { token } = useAuth();
 
   // Only redirect if token is explicitly null
-  if (token === null) return <Navigate to="/login" />;
+  if (token === null) return <Navigate to="/" />;
 
   return <Outlet />;
 };
