@@ -9,6 +9,7 @@ import {
 } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
 import { AnimatePresence, motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   // Animation variants
@@ -100,7 +101,10 @@ export default function Home() {
         </div>
 
         {/* Hero Content */}
-        <div className="relative h-full flex items-center justify-center px-6">
+        <div
+          id="home"
+          className="relative h-full flex items-center justify-center px-6"
+        >
           <motion.div
             className="text-center text-white max-w-3xl mx-auto"
             variants={staggerContainer}
@@ -154,14 +158,16 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.1, duration: 0.8 }}
             >
-              <motion.button
-                className="group bg-gradient-to-r cursor-pointer from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-3 shadow-2xl shadow-emerald-500/30 hover:shadow-emerald-500/50 hover:scale-105 transform"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <FaSearch className="text-sm" />
-                <span className="text-sm">Search Memorials</span>
-              </motion.button>
+              <Link to={"/memorial/search"}>
+                <motion.button
+                  className="group bg-gradient-to-r cursor-pointer from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-3 shadow-2xl shadow-emerald-500/30 hover:shadow-emerald-500/50 hover:scale-105 transform"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <FaSearch className="text-sm" />
+                  <span className="text-sm">Search Memorials</span>
+                </motion.button>
+              </Link>
             </motion.div>
           </motion.div>
         </div>
@@ -186,7 +192,7 @@ export default function Home() {
         viewport={{ once: true, amount: 0.3 }}
         variants={staggerContainer}
       >
-        <div className="max-w-6xl mx-auto">
+        <div id="about" className="scroll-mt-30   max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div variants={slideInLeft}>
               <motion.div

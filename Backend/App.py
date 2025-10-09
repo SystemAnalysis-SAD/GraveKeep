@@ -14,6 +14,8 @@ CORS(app,supports_credentials=True)
 #blueprint connection
 from Controllers.auth_controllers import auth_bp
 from Controllers.admin_controllers import admin_bp
+from Controllers.search_controllers import search_bp
+app.register_blueprint(search_bp)
 app.register_blueprint(admin_bp)
 app.register_blueprint(auth_bp)
 

@@ -9,10 +9,20 @@ export default function HomeMain() {
     document.title = "Gravekeep";
   }, []);
 
+  const scrollToSection = (id) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   const [isVisible, setIsVisible] = useState(false);
   return (
     <div className="h-screen w-full">
-      <NavBar setLoginComponentVisible={setIsVisible} />
+      <NavBar
+        setLoginComponentVisible={setIsVisible}
+        scrollToSection={scrollToSection}
+      />
       <Home />
       {isVisible && <Login setIsVisible={setIsVisible} isVisible={isVisible} />}
       <Footer />

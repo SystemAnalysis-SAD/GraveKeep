@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <img src="_logo.png" alt="logo" className="w-12 h-12" />
+              <img src="/_logo.png" alt="logo" className="w-12 h-12" />
               <span className="text-xl font-bold text-white">GraveKeep</span>
             </div>
             <p className="text-gray-400 text-sm">

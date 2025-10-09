@@ -5,6 +5,8 @@ import Register from "./pages/Auth/Register";
 import Dashboard from "./pages/Dashboard";
 import PublicRoute from "./api/PublicRoute,";
 import HomeMain from "./pages/Home/Home_Main";
+import Memorial from "./pages/Memorial/Memorial";
+import MemorialMain from "./pages/Memorial/Memorial_Main";
 
 export default function App() {
   return (
@@ -24,6 +26,15 @@ export default function App() {
             element={
               <PublicRoute>
                 <Register />
+              </PublicRoute>
+            }
+          />
+
+          <Route
+            path="/memorial/search"
+            element={
+              <PublicRoute>
+                <MemorialMain />
               </PublicRoute>
             }
           />

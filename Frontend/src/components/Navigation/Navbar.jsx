@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { Link } from "react-router-dom";
 
-export default function NavBar({ setLoginComponentVisible }) {
+export default function NavBar({ setLoginComponentVisible, scrollToSection }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -22,7 +23,7 @@ export default function NavBar({ setLoginComponentVisible }) {
 
         <div className="flex md:gap-7 lg:gap-15 items-center relative z-10">
           <div className="flex gap-2 md:gap-4 items-center">
-            <img src="_logo.png" alt="logo" className="w-12 h-12" />
+            <img src="/_logo.png" alt="logo" className="w-12 h-12" />
             <div>
               <h1 className="font-black text-2xl md:text-3xl text-emerald-400 hover:text-emerald-200 hover:scale-105 transition-all duration-300 cursor-pointer hover:drop-shadow-[0_0_15px_rgba(74,222,128,0.5)]">
                 Gravekeep
@@ -38,19 +39,24 @@ export default function NavBar({ setLoginComponentVisible }) {
           {/* LINKS with hover effects */}
           <div className="ml-8 flex items-center">
             <ul className="flex items-center h-fit gap-8">
-              <li className="relative group">
-                <span className="text-white/90 hover:text-emerald-400 transition-all duration-300 cursor-pointer font-semibold tracking-wide text-sm uppercase">
-                  Home
-                </span>
-                <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-emerald-400 group-hover:w-full transition-all duration-300"></div>
-              </li>
+              <Link to={"/"}>
+                <li className="relative group">
+                  <span className="text-white/90 hover:text-emerald-400 transition-all duration-300 cursor-pointer font-semibold tracking-wide text-sm uppercase">
+                    Home
+                  </span>
+                  <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-emerald-400 group-hover:w-full transition-all duration-300"></div>
+                </li>
+              </Link>
               <li className="relative group">
                 <span className="text-white/90 hover:text-emerald-400 transition-all duration-300 cursor-pointer font-semibold tracking-wide text-sm uppercase">
                   Memorials
                 </span>
                 <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-emerald-400 group-hover:w-full transition-all duration-300"></div>
               </li>
-              <li className="relative group">
+              <li
+                onClick={() => scrollToSection("about")}
+                className="relative group"
+              >
                 <span className="text-white/90 hover:text-emerald-400 transition-all duration-300 cursor-pointer font-semibold tracking-wide text-sm uppercase">
                   About
                 </span>
@@ -115,28 +121,37 @@ export default function NavBar({ setLoginComponentVisible }) {
             </div>
             {/* Menu Items */}
             <div className="flex-1 flex flex-col justify-start  items-center gap-2 px-6">
-              <button
-                onClick={() => setMenuOpen(false)}
-                className="w-full text-white text-xl font-semibold hover:text-emerald-400 transition-all duration-300 py-4 px-6 rounded-xl hover:bg-emerald-400/10 border border-transparent hover:border-emerald-400/30 transform hover:scale-105 group"
-              >
-                <span className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-emerald-400 rounded-full group-hover:scale-125 transition-transform"></div>
-                  Home
-                </span>
-              </button>
+              <Link to={"/"} className="w-full">
+                <button
+                  onClick={() => {
+                    setMenuOpen(false);
+                  }}
+                  className=" text-white text-xl font-semibold hover:text-emerald-400 transition-all duration-300 py-4 px-6 rounded-xl hover:bg-emerald-400/10 border border-transparent hover:border-emerald-400/30 transform hover:scale-105 group"
+                >
+                  <span className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-emerald-400 rounded-full group-hover:scale-125 transition-transform"></div>
+                    Home
+                  </span>
+                </button>
+              </Link>
+
+              <Link to={"/memorial/search"} className="w-full">
+                <button
+                  onClick={() => setMenuOpen(false)}
+                  className=" text-white text-xl font-semibold hover:text-emerald-400 transition-all duration-300 py-4 px-6 rounded-xl hover:bg-emerald-400/10 border border-transparent hover:border-emerald-400/30 transform hover:scale-105 group"
+                >
+                  <span className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-emerald-400 rounded-full group-hover:scale-125 transition-transform"></div>
+                    Memorials
+                  </span>
+                </button>
+              </Link>
 
               <button
-                onClick={() => setMenuOpen(false)}
-                className="w-full text-white text-xl font-semibold hover:text-emerald-400 transition-all duration-300 py-4 px-6 rounded-xl hover:bg-emerald-400/10 border border-transparent hover:border-emerald-400/30 transform hover:scale-105 group"
-              >
-                <span className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-emerald-400 rounded-full group-hover:scale-125 transition-transform"></div>
-                  Memorials
-                </span>
-              </button>
-
-              <button
-                onClick={() => setMenuOpen(false)}
+                onClick={() => {
+                  scrollToSection("about");
+                  setMenuOpen(false);
+                }}
                 className="w-full text-white text-xl font-semibold hover:text-emerald-400 transition-all duration-300 py-4 px-6 rounded-xl hover:bg-emerald-400/10 border border-transparent hover:border-emerald-400/30 transform hover:scale-105 group"
               >
                 <span className="flex items-center gap-3">
