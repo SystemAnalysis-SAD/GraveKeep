@@ -1,4 +1,4 @@
-import { useState } from "react";
+/* import { useState } from "react";
 import Footer from "../../components/Footer";
 import NavBar from "../../components/Navigation/Navbar";
 import Memorial from "./Memorial";
@@ -17,3 +17,4 @@ export default function MemorialMain() {
     </div>
   );
 }
+ */

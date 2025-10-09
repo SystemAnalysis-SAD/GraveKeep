@@ -5,9 +5,9 @@ import Register from "./pages/Auth/Register";
 import Dashboard from "./pages/Dashboard";
 import PublicRoute from "./api/PublicRoute,";
 import HomeMain from "./pages/Home/Home_Main";
-import Memorial from "./pages/Memorial/Memorial";
+/* import Memorial from "./pages/Memorial/Memorial";
 import MemorialMain from "./pages/Memorial/Memorial_Main";
-
+ */
 export default function App() {
   return (
     <AuthProvider>
@@ -29,7 +29,7 @@ export default function App() {
               </PublicRoute>
             }
           />
-
+          {/* 
           <Route
             path="/memorial/search"
             element={
@@ -37,7 +37,7 @@ export default function App() {
                 <MemorialMain />
               </PublicRoute>
             }
-          />
+          /> */}
 
           {/* protected routes */}
           <Route element={<ProtectedRoute />}>
