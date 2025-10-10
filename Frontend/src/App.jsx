@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  HashRouter as Hash,
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./api/auth";
 import PublicRoute from "./api/PublicRoute,";
@@ -17,7 +22,7 @@ import Custom404 from "./Notfound";
 export default function App() {
   return (
     <AuthProvider>
-      <Router>
+      <Hash>
         <Routes>
           {/* Public routes with main layout */}
           <Route
@@ -52,7 +57,7 @@ export default function App() {
           {/* 404 route */}
           <Route path="*" element={<Custom404 />} />
         </Routes>
-      </Router>
+      </Hash>
     </AuthProvider>
   );
 }
