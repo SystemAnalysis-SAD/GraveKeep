@@ -180,7 +180,14 @@ export default function Home() {
 
         {/* Enhanced Scroll Indicator */}
         <motion.div
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+          onClick={() => {
+            const id = document.getElementById("about");
+            if (id) {
+              id.scrollIntoView({ behavior: "smooth" });
+            }
+            id.scrollIntoView({ behavior: "smooth" });
+          }}
+          className="absolute cursor-pointer bottom-8 left-1/2 transform -translate-x-1/2"
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
