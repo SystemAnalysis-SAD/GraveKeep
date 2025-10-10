@@ -337,68 +337,71 @@ export default function Home() {
             className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12"
             variants={staggerContainer}
           >
-            <motion.div
-              className="text-center"
-              variants={fadeInUp}
-              whileHover={{ y: -10 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <motion.a
-                href="/purpose/gravekeep"
-                className="w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4"
-                whileHover={{ scale: 1.1, rotate: 5 }}
+            <Link to={"/purpose/gravekeep"}>
+              <motion.div
+                className="text-center"
+                variants={fadeInUp}
+                whileHover={{ y: -10 }}
+                transition={{ type: "spring", stiffness: 300 }}
               >
-                <FaSearch className="text-2xl text-white" />
-              </motion.a>
-              <h3 className="text-xl font-semibold text-white mb-3">
-                Easy Search
-              </h3>
-              <p className="text-gray-400 text-sm">
-                Simple and intuitive search to find your loved ones
-              </p>
-            </motion.div>
+                <motion.div
+                  className="w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4"
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                >
+                  <FaSearch className="text-2xl text-white" />
+                </motion.div>
+                <h3 className="text-xl font-semibold text-white mb-3">
+                  Easy Search
+                </h3>
+                <p className="text-gray-400 text-sm">
+                  Simple and intuitive search to find your loved ones
+                </p>
+              </motion.div>
+            </Link>
 
-            <motion.div
-              className="text-center"
-              variants={fadeInUp}
-              whileHover={{ y: -10 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <motion.a
-                href="/purpose/gravekeep"
-                className="w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4"
-                whileHover={{ scale: 1.1, rotate: 5 }}
+            <Link to={"/purpose/gravekeep"}>
+              <motion.div
+                className="text-center"
+                variants={fadeInUp}
+                whileHover={{ y: -10 }}
+                transition={{ type: "spring", stiffness: 300 }}
               >
-                <FaMapMarkerAlt className="text-2xl text-white" />
-              </motion.a>
-              <h3 className="text-xl font-semibold text-white mb-3">
-                Precise Location
-              </h3>
-              <p className="text-gray-400 text-sm">
-                Accurate grave locations within the memorial park
-              </p>
-            </motion.div>
+                <motion.div
+                  className="w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4"
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                >
+                  <FaMapMarkerAlt className="text-2xl text-white" />
+                </motion.div>
+                <h3 className="text-xl font-semibold text-white mb-3">
+                  Precise Location
+                </h3>
+                <p className="text-gray-400 text-sm">
+                  Accurate grave locations within the memorial park
+                </p>
+              </motion.div>
+            </Link>
 
-            <motion.div
-              className="text-center"
-              variants={fadeInUp}
-              whileHover={{ y: -10 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <motion.a
-                href="/purpose/gravekeep"
-                className="w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4"
-                whileHover={{ scale: 1.1, rotate: 5 }}
+            <Link to={"/purpose/gravekeep"}>
+              <motion.div
+                className="text-center"
+                variants={fadeInUp}
+                whileHover={{ y: -10 }}
+                transition={{ type: "spring", stiffness: 300 }}
               >
-                <FaHeart className="text-2xl text-white" />
-              </motion.a>
-              <h3 className="text-xl font-semibold text-white mb-3">
-                With Compassion
-              </h3>
-              <p className="text-gray-400 text-sm">
-                Designed with respect and understanding for families
-              </p>
-            </motion.div>
+                <motion.div
+                  className="w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4"
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                >
+                  <FaHeart className="text-2xl text-white" />
+                </motion.div>
+                <h3 className="text-xl font-semibold text-white mb-3">
+                  With Compassion
+                </h3>
+                <p className="text-gray-400 text-sm">
+                  Designed with respect and understanding for families
+                </p>
+              </motion.div>
+            </Link>
           </motion.div>
         </div>
       </motion.div>
