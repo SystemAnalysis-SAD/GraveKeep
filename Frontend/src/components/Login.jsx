@@ -3,13 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
-import {
-  FaEye,
-  FaEyeSlash,
-  FaUserShield,
-  FaUser,
-  FaLock,
-} from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaUser, FaLock } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
 
 export default function Login({ setIsVisible, isVisible }) {
@@ -59,73 +53,116 @@ export default function Login({ setIsVisible, isVisible }) {
       window.addEventListener("keydown", handleEscButton);
     }
 
-    return () => window.removeEventListener("Keydown", handleEscButton);
-  }, []);
+    return () => window.removeEventListener("keydown", handleEscButton);
+  }, [isVisible, setIsVisible]);
 
   // disable scroll when on component
   useEffect(() => {
     if (isVisible) {
-      document.body.style.overflow = "hidden"; // 🚫 disable scroll
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "auto"; // ✅ re-enable scroll
+      document.body.style.overflow = "auto";
     }
 
-    // Cleanup if the component unmounts
     return () => (document.body.style.overflow = "auto");
   }, [isVisible]);
 
-  return (
-    <>
-      {/* Backdrop */}
-      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-200  " />
+  // Don't render anything if not visible
+  if (!isVisible) return null;
 
-      {/* Modal */}
-      <AnimatePresence>
-        {isVisible && (
+  return (
+    <AnimatePresence mode="wait">
+      {isVisible && (
+        <>
+          {/* Backdrop */}
           <motion.div
-            className="fixed inset-0 top-10 z-[200] flex items-center justify-center p-4"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.5 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onClick={() => setIsVisible(false)}
+          />
+
+          {/* Modal */}
+          <motion.div
+            className="fixed inset-0 z-[201] flex items-center justify-center p-4"
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: -20 }}
+            transition={{
+              duration: 0.3,
+              type: "spring",
+              damping: 25,
+              stiffness: 300,
+            }}
             onClick={() => setIsVisible(false)}
           >
             <div className="w-full max-w-md relative">
               {/* Close Button */}
-              <button
+              <motion.button
                 onClick={() => setIsVisible(false)}
                 className="absolute -top-12 right-0 p-2 cursor-pointer text-gray-300 hover:text-white transition-colors duration-200 z-10"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
               >
                 <IoMdClose className="text-2xl" />
-              </button>
+              </motion.button>
 
               {/* Login Card */}
-              <div
+              <motion.div
                 onClick={(e) => e.stopPropagation()}
                 className="bg-gray-800/50 backdrop-blur-lg rounded-2xl border border-gray-700/50 shadow-2xl"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -20, opacity: 0 }}
+                transition={{ delay: 0.1, duration: 0.3 }}
               >
                 <div className="p-8">
                   {/* Header */}
                   <div className="text-center mb-6">
                     <div className="flex items-center justify-center gap-3 mb-4">
-                      <div className="relative">
-                        <div className="absolute -inset-1 bg-geay-400/20 rounded-full blur-sm"></div>
-                      </div>
-                      <h1 className="text-4xl font-bold bg-gradient-to-r from-emerald-400 to-green-300 bg-clip-text text-transparent">
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: 0.2, type: "spring" }}
+                      >
+                        <div className="relative">
+                          <div className="absolute -inset-1 bg-gray-400/20 rounded-full blur-sm"></div>
+                        </div>
+                      </motion.div>
+                      <motion.h1
+                        className="text-4xl font-bold bg-gradient-to-r from-emerald-400 to-green-300 bg-clip-text text-transparent"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                      >
                         Gravekeep
-                      </h1>
+                      </motion.h1>
                     </div>
-                    <p className="text-gray-400 text-sm">Garden of Memories</p>
+                    <motion.p
+                      className="text-gray-400 text-sm"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.4 }}
+                    >
+                      Garden of Memories
+                    </motion.p>
                   </div>
 
                   <form onSubmit={handleLogin} className="space-y-6">
                     {/* Username Field */}
-                    <div className="space-y-2">
+                    <motion.div
+                      className="space-y-2"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.5 }}
+                    >
                       <label className="text-sm font-medium text-gray-300">
                         Username
                       </label>
-                      <div className="relative ">
-                        <FaUser className="absolute translate-x-4.5 translate-y-4 text-white/30" />
+                      <div className="relative">
+                        <FaUser className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white/30" />
                         <input
                           type="text"
                           name="admin_username"
@@ -136,15 +173,20 @@ export default function Login({ setIsVisible, isVisible }) {
                           required
                         />
                       </div>
-                    </div>
+                    </motion.div>
 
                     {/* Password Field */}
-                    <div className="space-y-2">
+                    <motion.div
+                      className="space-y-2"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.6 }}
+                    >
                       <label className="text-sm font-medium text-gray-300">
                         Password
                       </label>
                       <div className="relative">
-                        <FaLock className="absolute translate-x-4.5 translate-y-4 text-white/30" />
+                        <FaLock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white/30" />
                         <input
                           type={showPassword ? "text" : "password"}
                           name="admin_password"
@@ -162,44 +204,62 @@ export default function Login({ setIsVisible, isVisible }) {
                           {showPassword ? <FaEyeSlash /> : <FaEye />}
                         </button>
                       </div>
-                    </div>
+                    </motion.div>
 
                     {/* Error Message */}
-                    {error && (
-                      <div className="text-red-400 text-sm text-center">
-                        Invalid credentials. Please try again.
-                      </div>
-                    )}
+                    <AnimatePresence>
+                      {error && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className="text-red-400 text-sm text-center overflow-hidden"
+                        >
+                          Invalid credentials. Please try again.
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
 
                     {/* Login Button */}
-                    <button
-                      type="submit"
-                      disabled={isLoading}
-                      className="w-full bg-gradient-to-r from-emerald-500 to-emerald-300 hover:from-emerald-600 hover:to-emerald-400 disabled:from-gray-600 disabled:to-gray-600 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:ring-offset-2 focus:ring-offset-gray-900"
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.7 }}
                     >
-                      {isLoading ? (
-                        <div className="flex items-center justify-center gap-2">
-                          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                          <span>Authenticating...</span>
-                        </div>
-                      ) : (
-                        "Login"
-                      )}
-                    </button>
+                      <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="w-full bg-gradient-to-r from-emerald-500 to-emerald-300 hover:from-emerald-600 hover:to-emerald-400 disabled:from-gray-600 disabled:to-gray-600 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:ring-offset-2 focus:ring-offset-gray-900"
+                      >
+                        {isLoading ? (
+                          <div className="flex items-center justify-center gap-2">
+                            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                            <span>Authenticating...</span>
+                          </div>
+                        ) : (
+                          "Login"
+                        )}
+                      </button>
+                    </motion.div>
                   </form>
 
                   {/* Footer */}
-                  <div className="mt-6 pt-6 border-t border-gray-700/50">
+                  <motion.div
+                    className="mt-6 pt-6 border-t border-gray-700/50"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.8 }}
+                  >
                     <p className="text-center text-xs text-gray-400">
                       Secure access to Gravekeep management system
                     </p>
-                  </div>
+                  </motion.div>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+        </>
+      )}
+    </AnimatePresence>
   );
 }

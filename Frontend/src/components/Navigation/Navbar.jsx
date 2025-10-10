@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function NavBar({ setLoginComponentVisible, scrollToSection }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (menuOpen) {
@@ -15,6 +17,14 @@ export default function NavBar({ setLoginComponentVisible, scrollToSection }) {
     // Cleanup if the component unmounts
     return () => (document.body.style.overflow = "auto");
   }, [menuOpen]);
+
+  const handleClickHome = () => {
+    if (location.pathname !== "/") {
+      navigate("/");
+    } else {
+      scrollToSection("home");
+    }
+  };
 
   return (
     <>
@@ -39,17 +49,32 @@ export default function NavBar({ setLoginComponentVisible, scrollToSection }) {
           {/* LINKS with hover effects */}
           <div className="ml-8 flex items-center">
             <ul className="flex items-center h-fit gap-8">
-              <Link to={"/"}>
+              <button
+                onClick={handleClickHome}
+                className="relative group cursor-pointer"
+              >
                 <li className="relative group">
                   <span className="text-white/90 hover:text-emerald-400 transition-all duration-300 cursor-pointer font-semibold tracking-wide text-sm uppercase">
                     Home
                   </span>
                   <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-emerald-400 group-hover:w-full transition-all duration-300"></div>
                 </li>
-              </Link>
-              <li className="relative group">
+              </button>
+              <li
+                onClick={() => scrollToSection("search")}
+                className="relative group"
+              >
                 <span className="text-white/90 hover:text-emerald-400 transition-all duration-300 cursor-pointer font-semibold tracking-wide text-sm uppercase">
-                  Memorials
+                  Search
+                </span>
+                <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-emerald-400 group-hover:w-full transition-all duration-300"></div>
+              </li>
+              <li
+                onClick={() => scrollToSection("purpose")}
+                className="relative group"
+              >
+                <span className="text-white/90 hover:text-emerald-400 transition-all duration-300 cursor-pointer font-semibold tracking-wide text-sm uppercase">
+                  Purpose
                 </span>
                 <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-emerald-400 group-hover:w-full transition-all duration-300"></div>
               </li>
@@ -102,7 +127,7 @@ export default function NavBar({ setLoginComponentVisible, scrollToSection }) {
 
         {/* Menu Panel with Width Animation */}
         <div
-          className={`absolute top-0 right-0 h-full bg-gradient-to-b from-emerald-900 to-black border-l border-emerald-400/20 transform transition-all duration-500 ease-in-out ${
+          className={`absolute top-0 right-0 h-full bg-gradient-to-b from-emerald-900 to-black/60 border-l border-emerald-400/20 transform transition-all duration-500 ease-in-out ${
             menuOpen ? "w-80" : "w-0"
           } overflow-hidden`}
         >
@@ -121,10 +146,11 @@ export default function NavBar({ setLoginComponentVisible, scrollToSection }) {
             </div>
             {/* Menu Items */}
             <div className="flex-1 flex flex-col justify-start  items-center gap-2 px-6">
-              <Link to={"/"} className="w-full">
+              <Link to={"/"} className="w-full ">
                 <button
                   onClick={() => {
                     setMenuOpen(false);
+                    handleClickHome();
                   }}
                   className=" text-white text-xl font-semibold hover:text-emerald-400 transition-all duration-300 py-4 px-6 rounded-xl hover:bg-emerald-400/10 border border-transparent hover:border-emerald-400/30 transform hover:scale-105 group"
                 >
@@ -135,14 +161,28 @@ export default function NavBar({ setLoginComponentVisible, scrollToSection }) {
                 </button>
               </Link>
 
-              <Link to={"/memorial/search"} className="w-full">
+              <Link to={"/search"} className="w-full">
                 <button
                   onClick={() => setMenuOpen(false)}
                   className=" text-white text-xl font-semibold hover:text-emerald-400 transition-all duration-300 py-4 px-6 rounded-xl hover:bg-emerald-400/10 border border-transparent hover:border-emerald-400/30 transform hover:scale-105 group"
                 >
                   <span className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-emerald-400 rounded-full group-hover:scale-125 transition-transform"></div>
-                    Memorials
+                    Search
+                  </span>
+                </button>
+              </Link>
+
+              <Link to={"/purpose/gravekeep"} className="w-full ">
+                <button
+                  onClick={() => {
+                    setMenuOpen(false);
+                  }}
+                  className=" text-white text-xl font-semibold hover:text-emerald-400 transition-all duration-300 py-4 px-6 rounded-xl hover:bg-emerald-400/10 border border-transparent hover:border-emerald-400/30 transform hover:scale-105 group"
+                >
+                  <span className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-emerald-400 rounded-full group-hover:scale-125 transition-transform"></div>
+                    Purpose
                   </span>
                 </button>
               </Link>

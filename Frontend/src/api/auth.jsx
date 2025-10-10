@@ -4,8 +4,7 @@ import { useAuth } from "../context/AuthContext";
 const ProtectedRoute = () => {
   const { token } = useAuth();
 
-  // Only redirect if token is explicitly null
-  if (token === null) return <Navigate to="/" />;
+  if (!token) return <Navigate to="/" />;
 
   return <Outlet />;
 };

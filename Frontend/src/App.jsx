@@ -1,26 +1,38 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./api/auth";
+import PublicRoute from "./api/PublicRoute,";
+import MainLayout from "./pages/MainLayout ";
+
+// Pages
 import Register from "./pages/Auth/Register";
 import Dashboard from "./pages/Dashboard";
-import PublicRoute from "./api/PublicRoute,";
-import HomeMain from "./pages/Home/Home_Main";
-/* import Memorial from "./pages/Memorial/Memorial";
-import MemorialMain from "./pages/Memorial/Memorial_Main";
- */
+import Home from "./pages/Home/Home";
+import Search from "./pages/Memorial/Memorial";
+import PurposeMain from "./pages/Purpose/PurposeMain";
+// import MemorialMain from "./pages/Memorial/Memorial_Main";
+
 export default function App() {
   return (
     <AuthProvider>
       <Router>
         <Routes>
+          {/* Public routes with main layout */}
           <Route
             path="/"
             element={
               <PublicRoute>
-                <HomeMain />
+                <MainLayout />
               </PublicRoute>
             }
-          />
+          >
+            <Route path="/" element={<Home />} />
+            <Route path="/purpose" element={<PurposeMain />} />
+            <Route path="/purpose/:id" element={<PurposeMain />} />
+            <Route path="memorial/search" element={<Search />} />
+          </Route>
+
+          {/* Public routes without main layout (like auth pages) */}
           <Route
             path="/register"
             element={
@@ -29,20 +41,14 @@ export default function App() {
               </PublicRoute>
             }
           />
-          {/* 
-          <Route
-            path="/memorial/search"
-            element={
-              <PublicRoute>
-                <MemorialMain />
-              </PublicRoute>
-            }
-          /> */}
 
-          {/* protected routes */}
+          {/* Protected routes */}
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
           </Route>
+
+          {/* 404 route */}
+          <Route path="*" element={<div>404 - Page Not Found</div>} />
         </Routes>
       </Router>
     </AuthProvider>

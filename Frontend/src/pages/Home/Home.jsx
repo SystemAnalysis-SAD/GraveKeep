@@ -9,9 +9,15 @@ import {
 } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
 import { AnimatePresence, motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Home() {
+  const navigate = useNavigate();
+  // inside Home.jsx
+  const handleClickPurpose = (sectionId) => {
+    navigate(`/purpose/${sectionId}`);
+  };
+
   // Animation variants
   const fadeInUp = {
     initial: { y: 60, opacity: 0 },
@@ -120,7 +126,7 @@ export default function Home() {
                 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-4 tracking-tighter"
               >
                 <span className="bg-gradient-to-r from-emerald-300 via-emerald-400 to-emerald-500 bg-clip-text text-transparent drop-shadow-2xl">
-                  GraveKeep
+                  Gravekeep
                 </span>
               </motion.h1>
 
@@ -192,7 +198,7 @@ export default function Home() {
         viewport={{ once: true, amount: 0.3 }}
         variants={staggerContainer}
       >
-        <div id="about" className="scroll-mt-30   max-w-6xl mx-auto">
+        <div id="about" className="scroll-mt-50   max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div variants={slideInLeft}>
               <motion.div
@@ -260,7 +266,7 @@ export default function Home() {
                 </motion.div>
               </motion.div>
             </motion.div>
-            <motion.div className="relative" variants={slideInRight}>
+            <div className="relative" variants={slideInRight}>
               <motion.div
                 className="bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-2xl p-8 h-80 flex items-center justify-center"
                 whileHover={{ scale: 1.02 }}
@@ -289,14 +295,15 @@ export default function Home() {
                   <p className="text-emerald-100">Taguig City</p>
                 </motion.div>
               </motion.div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </motion.div>
 
       {/* Simple Purpose Section */}
       <motion.div
-        className="py-20 px-4 bg-black"
+        id="purpose"
+        className="py-20 px-4 bg-black scroll-mt-30"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true, amount: 0.3 }}
@@ -336,12 +343,13 @@ export default function Home() {
               whileHover={{ y: -10 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
-              <motion.div
+              <motion.a
+                href="/purpose/gravekeep"
                 className="w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4"
                 whileHover={{ scale: 1.1, rotate: 5 }}
               >
                 <FaSearch className="text-2xl text-white" />
-              </motion.div>
+              </motion.a>
               <h3 className="text-xl font-semibold text-white mb-3">
                 Easy Search
               </h3>
@@ -356,12 +364,13 @@ export default function Home() {
               whileHover={{ y: -10 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
-              <motion.div
+              <motion.a
+                href="/purpose/gravekeep"
                 className="w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4"
-                whileHover={{ scale: 1.1, rotate: -5 }}
+                whileHover={{ scale: 1.1, rotate: 5 }}
               >
                 <FaMapMarkerAlt className="text-2xl text-white" />
-              </motion.div>
+              </motion.a>
               <h3 className="text-xl font-semibold text-white mb-3">
                 Precise Location
               </h3>
@@ -376,12 +385,13 @@ export default function Home() {
               whileHover={{ y: -10 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
-              <motion.div
+              <motion.a
+                href="/purpose/gravekeep"
                 className="w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4"
                 whileHover={{ scale: 1.1, rotate: 5 }}
               >
                 <FaHeart className="text-2xl text-white" />
-              </motion.div>
+              </motion.a>
               <h3 className="text-xl font-semibold text-white mb-3">
                 With Compassion
               </h3>
@@ -395,7 +405,8 @@ export default function Home() {
 
       {/* CTA Section */}
       <motion.div
-        className="py-20 px-4 bg-gradient-to-br from-gray-900 to-emerald-900/20"
+        id="search"
+        className="py-20 scroll-mt-40 px-4 bg-gradient-to-br from-gray-900 to-emerald-900/20"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true, amount: 0.3 }}
