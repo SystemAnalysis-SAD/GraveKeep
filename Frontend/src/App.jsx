@@ -11,6 +11,7 @@ import Home from "./pages/Home/Home";
 import Search from "./pages/Memorial/Memorial";
 import PurposeMain from "./pages/Purpose/PurposeMain";
 import NotFound from "./pages/404/NotFound";
+import Custom404 from "./Notfound";
 // import MemorialMain from "./pages/Memorial/Memorial_Main";
 
 export default function App() {
@@ -49,7 +50,7 @@ export default function App() {
           </Route>
 
           {/* 404 route */}
-          <Route path="*" element={<NotFound />} />
+          <Route path="*" element={<Custom404 />} />
         </Routes>
       </Router>
     </AuthProvider>
