@@ -185,7 +185,6 @@ export default function Home() {
             if (id) {
               id.scrollIntoView({ behavior: "smooth" });
             }
-            id.scrollIntoView({ behavior: "smooth" });
           }}
           className="absolute cursor-pointer bottom-8 left-1/2 transform -translate-x-1/2"
           animate={{ y: [0, 10, 0] }}
