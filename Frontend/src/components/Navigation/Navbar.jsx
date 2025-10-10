@@ -31,7 +31,10 @@ export default function NavBar({ setLoginComponentVisible, scrollToSection }) {
       <div className="h-20 py-4 px-4 md:px-12 lg:px-20 w-full flex justify-between fixed top-0 bg-black/20 backdrop-blur-xl z-50 border-b border-emerald-400/20">
         <div className="absolute inset-0 bg-gradient-to-r from-emerald-400/5 via-transparent to-emerald-400/5 opacity-50 z-0"></div>
 
-        <div className="flex md:gap-7 lg:gap-15 items-center relative z-10">
+        <div
+          onClick={handleClickHome}
+          className="flex md:gap-7 lg:gap-15 items-center relative z-10 "
+        >
           <div className="flex gap-2 md:gap-4 items-center">
             <img src="/_logo.png" alt="logo" className="w-12 h-12" />
             <div>
