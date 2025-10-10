@@ -161,7 +161,7 @@ export default function NavBar({ setLoginComponentVisible, scrollToSection }) {
                 </button>
               </Link>
 
-              <Link to={"/search"} className="w-full">
+              <Link to={"/memorial/search"} className="w-full">
                 <button
                   onClick={() => setMenuOpen(false)}
                   className=" text-white text-xl font-semibold hover:text-emerald-400 transition-all duration-300 py-4 px-6 rounded-xl hover:bg-emerald-400/10 border border-transparent hover:border-emerald-400/30 transform hover:scale-105 group"

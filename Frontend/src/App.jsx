@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home/Home";
 import Search from "./pages/Memorial/Memorial";
 import PurposeMain from "./pages/Purpose/PurposeMain";
+import NotFound from "./pages/404/NotFound";
 // import MemorialMain from "./pages/Memorial/Memorial_Main";
 
 export default function App() {
@@ -48,7 +49,7 @@ export default function App() {
           </Route>
 
           {/* 404 route */}
-          <Route path="*" element={<div>404 - Page Not Found</div>} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </AuthProvider>

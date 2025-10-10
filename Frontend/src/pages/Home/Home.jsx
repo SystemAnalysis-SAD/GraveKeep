@@ -429,23 +429,25 @@ export default function Home() {
             Begin your search with dignity and respect at Garden of Memories
             Memorial Park.
           </motion.p>
-          <motion.button
-            className="bg-emerald-500 hover:bg-emerald-600 cursor-pointer text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-emerald-500/30 mx-auto"
-            variants={scaleIn}
-            whileHover={{
-              scale: 1.05,
-              boxShadow: "0 20px 40px rgba(16, 185, 129, 0.3)",
-            }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Start Searching
-            <motion.span
-              animate={{ x: [0, 5, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
+          <Link to={"/memorial/search"}>
+            <motion.button
+              className="bg-emerald-500 hover:bg-emerald-600 cursor-pointer text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-emerald-500/30 mx-auto"
+              variants={scaleIn}
+              whileHover={{
+                scale: 1.05,
+                boxShadow: "0 20px 40px rgba(16, 185, 129, 0.3)",
+              }}
+              whileTap={{ scale: 0.95 }}
             >
-              <FaArrowRight />
-            </motion.span>
-          </motion.button>
+              Start Searching
+              <motion.span
+                animate={{ x: [0, 5, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              >
+                <FaArrowRight />
+              </motion.span>
+            </motion.button>
+          </Link>
         </div>
       </motion.div>
     </div>
