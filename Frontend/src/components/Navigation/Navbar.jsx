@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function NavBar({ setLoginComponentVisible, scrollToSection }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -9,21 +9,89 @@ export default function NavBar({ setLoginComponentVisible, scrollToSection }) {
 
   useEffect(() => {
     if (menuOpen) {
-      document.body.style.overflow = "hidden"; // 🚫 disable scroll
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "auto"; // ✅ re-enable scroll
+      document.body.style.overflow = "auto";
     }
-
-    // Cleanup if the component unmounts
-    return () => (document.body.style.overflow = "auto");
+    return () => {
+      document.body.style.overflow = "auto";
+    };
   }, [menuOpen]);
+
+  // ✅ ADD THIS BACK - This is the main logic for setting default home
+  useEffect(() => {
+    const handleDefaultHome = () => {
+      // Use window.location for more reliable hash detection on refresh
+      const currentPath = window.location.pathname;
+      const currentHash = window.location.hash;
+
+      console.log("Current path:", currentPath, "Current hash:", currentHash);
+
+      if (currentPath === "/" && !currentHash) {
+        console.log("Setting default #home");
+        // Use both methods for maximum reliability
+        window.history.replaceState(null, null, "#home");
+        navigate("#home", { replace: true });
+
+        // Wait a bit longer for the page to fully load
+        setTimeout(() => {
+          scrollToSection("home");
+        }, 500);
+      }
+    };
+
+    // Small delay to ensure React Router is fully initialized
+    setTimeout(handleDefaultHome, 100);
+  }, [navigate, scrollToSection]);
+
+  // ✅ ALSO ADD THIS - Handle hash changes for navigation
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.substring(1);
+      scrollToSection(id);
+    }
+  }, [location.hash, scrollToSection]);
+
+  const handleNavClick = (sectionId) => {
+    if (location.pathname !== "/") {
+      navigate(`/#${sectionId}`);
+    } else {
+      scrollToSection(sectionId);
+      navigate(`#${sectionId}`, { replace: true });
+    }
+    setMenuOpen(false);
+  };
 
   const handleClickHome = () => {
     if (location.pathname !== "/") {
-      navigate("/");
+      navigate("/#home");
     } else {
       scrollToSection("home");
+      navigate("#home", { replace: true });
     }
+    setMenuOpen(false);
+  };
+
+  // Helper to detect if a link is "active"
+  // Helper to detect if a link is "active"
+  const isActive = (sectionId) => {
+    // If we're on home page
+    if (location.pathname === "/") {
+      if (!location.hash && sectionId === "home") return true;
+      return location.hash === `#${sectionId}`;
+    }
+
+    // If we're NOT on home page
+    if (sectionId === "home") {
+      // Home is only active when we're not on any specific section route
+      return !location.pathname.includes("/purpose/");
+    }
+
+    if (sectionId === "purpose") {
+      return location.pathname.includes("/purpose/");
+    }
+
+    return false;
   };
 
   return (
@@ -33,7 +101,7 @@ export default function NavBar({ setLoginComponentVisible, scrollToSection }) {
 
         <div
           onClick={handleClickHome}
-          className="flex md:gap-7 lg:gap-15 items-center relative z-10 "
+          className="flex md:gap-7 lg:gap-15 items-center relative z-10"
         >
           <div className="flex gap-2 md:gap-4 items-center">
             <img src="/_logo.png" alt="logo" className="w-12 h-12" />
@@ -48,57 +116,85 @@ export default function NavBar({ setLoginComponentVisible, scrollToSection }) {
           </div>
         </div>
 
-        <div className="md:flex md:gap-7 lg:gap-14 hidden">
-          {/* LINKS with hover effects */}
+        <div className="md:flex md:gap-5 lg:gap-14 hidden">
           <div className="ml-8 flex items-center">
-            <ul className="flex items-center h-fit gap-8">
-              <button
-                onClick={handleClickHome}
-                className="relative group cursor-pointer"
-              >
-                <li className="relative group">
-                  <span className="text-white/90 hover:text-emerald-400 transition-all duration-300 cursor-pointer font-semibold tracking-wide text-sm uppercase">
-                    Home
-                  </span>
-                  <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-emerald-400 group-hover:w-full transition-all duration-300"></div>
-                </li>
-              </button>
+            <ul className="flex items-center h-fit lg:gap-8 md:gap-3">
               <li
-                onClick={() => scrollToSection("search")}
-                className="relative group"
+                onClick={handleClickHome}
+                className={`relative group cursor-pointer ${
+                  isActive("home") ? "text-emerald-400" : "text-white/90"
+                }`}
               >
-                <span className="text-white/90 hover:text-emerald-400 transition-all duration-300 cursor-pointer font-semibold tracking-wide text-sm uppercase">
+                <span className="font-semibold tracking-wide text-sm uppercase">
+                  Home
+                </span>
+                <div
+                  className={`absolute bottom-0 left-0 h-0.5 bg-emerald-400 transition-all duration-300 ${
+                    isActive("home") ? "w-full" : "w-0 group-hover:w-full"
+                  }`}
+                ></div>
+              </li>
+
+              <li
+                onClick={() => handleNavClick("search")}
+                className={`relative group cursor-pointer ${
+                  isActive("search") ? "text-emerald-400" : "text-white/90"
+                }`}
+              >
+                <span className="font-semibold tracking-wide text-sm uppercase">
                   Search
                 </span>
-                <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-emerald-400 group-hover:w-full transition-all duration-300"></div>
+                <div
+                  className={`absolute bottom-0 left-0 h-0.5 bg-emerald-400 transition-all duration-300 ${
+                    isActive("search") ? "w-full" : "w-0 group-hover:w-full"
+                  }`}
+                ></div>
               </li>
+
               <li
-                onClick={() => scrollToSection("purpose")}
-                className="relative group"
+                onClick={() => handleNavClick("purpose")}
+                className={`relative group cursor-pointer ${
+                  isActive("purpose") ||
+                  location.pathname == "/purpose/gravekeep"
+                    ? "text-emerald-400"
+                    : "text-white/90"
+                }`}
               >
-                <span className="text-white/90 hover:text-emerald-400 transition-all duration-300 cursor-pointer font-semibold tracking-wide text-sm uppercase">
+                <span className="font-semibold tracking-wide text-sm uppercase">
                   Purpose
                 </span>
-                <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-emerald-400 group-hover:w-full transition-all duration-300"></div>
+                <div
+                  className={`absolute bottom-0 left-0 h-0.5 bg-emerald-400 transition-all duration-300 ${
+                    isActive("purpose") ||
+                    location.pathname == "/purpose/gravekeep"
+                      ? "w-full"
+                      : "w-0 group-hover:w-full"
+                  }`}
+                ></div>
               </li>
+
               <li
-                onClick={() => scrollToSection("about")}
-                className="relative group"
+                onClick={() => handleNavClick("about")}
+                className={`relative group cursor-pointer ${
+                  isActive("about") ? "text-emerald-400" : "text-white/90"
+                }`}
               >
-                <span className="text-white/90 hover:text-emerald-400 transition-all duration-300 cursor-pointer font-semibold tracking-wide text-sm uppercase">
+                <span className="font-semibold tracking-wide text-sm uppercase">
                   About
                 </span>
-                <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-emerald-400 group-hover:w-full transition-all duration-300"></div>
+                <div
+                  className={`absolute bottom-0 left-0 h-0.5 bg-emerald-400 transition-all duration-300 ${
+                    isActive("about") ? "w-full" : "w-0 group-hover:w-full"
+                  }`}
+                ></div>
               </li>
             </ul>
           </div>
 
-          {/* LOGIN BUTTON with enhanced effects */}
           <button
             onClick={() => setLoginComponentVisible(true)}
             className="relative cursor-pointer bg-gradient-to-r from-emerald-500 to-emerald-600 px-7 py-2 rounded-xl text-white font-semibold tracking-wide hover:shadow-2xl shadow-lg hover:shadow-green-400/40 transition-all duration-400 hover:from-green-600 hover:to-green-700 hover:scale-105 group overflow-hidden z-10"
           >
-            {/* Button shine effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
             Admin Login
           </button>
@@ -114,13 +210,11 @@ export default function NavBar({ setLoginComponentVisible, scrollToSection }) {
         )}
       </div>
 
-      {/* Mobile Menu Overlay */}
       <div
         className={`fixed inset-0 backdrop-blur-2xl h-full top-0 z-1000 md:hidden transition-all duration-500 ease-in-out ${
           menuOpen ? "opacity-100 visible" : "opacity-0 invisible delay-300"
         }`}
       >
-        {/* Background Overlay */}
         <div
           className={`absolute inset-0 bg-black/60 transition-opacity duration-500 ${
             menuOpen ? "opacity-100" : "opacity-0"
@@ -128,7 +222,6 @@ export default function NavBar({ setLoginComponentVisible, scrollToSection }) {
           onClick={() => setMenuOpen(false)}
         />
 
-        {/* Menu Panel with Width Animation */}
         <div
           className={`absolute top-0 right-0 h-full bg-gradient-to-b from-emerald-900 to-black/60 border-l border-emerald-400/20 transform transition-all duration-500 ease-in-out ${
             menuOpen ? "w-80" : "w-0"
@@ -147,54 +240,40 @@ export default function NavBar({ setLoginComponentVisible, scrollToSection }) {
                 ✕
               </button>
             </div>
-            {/* Menu Items */}
-            <div className="flex-1 flex flex-col justify-start  items-center gap-2 px-6">
-              <Link to={"/"} className="w-full ">
-                <button
-                  onClick={() => {
-                    setMenuOpen(false);
-                    handleClickHome();
-                  }}
-                  className=" text-white text-xl font-semibold hover:text-emerald-400 transition-all duration-300 py-4 px-6 rounded-xl hover:bg-emerald-400/10 border border-transparent hover:border-emerald-400/30 transform hover:scale-105 group"
-                >
-                  <span className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-emerald-400 rounded-full group-hover:scale-125 transition-transform"></div>
-                    Home
-                  </span>
-                </button>
-              </Link>
 
-              <Link to={"/memorial/search"} className="w-full">
-                <button
-                  onClick={() => setMenuOpen(false)}
-                  className=" text-white text-xl font-semibold hover:text-emerald-400 transition-all duration-300 py-4 px-6 rounded-xl hover:bg-emerald-400/10 border border-transparent hover:border-emerald-400/30 transform hover:scale-105 group"
-                >
-                  <span className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-emerald-400 rounded-full group-hover:scale-125 transition-transform"></div>
-                    Search
-                  </span>
-                </button>
-              </Link>
-
-              <Link to={"/purpose/gravekeep"} className="w-full ">
-                <button
-                  onClick={() => {
-                    setMenuOpen(false);
-                  }}
-                  className=" text-white text-xl font-semibold hover:text-emerald-400 transition-all duration-300 py-4 px-6 rounded-xl hover:bg-emerald-400/10 border border-transparent hover:border-emerald-400/30 transform hover:scale-105 group"
-                >
-                  <span className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-emerald-400 rounded-full group-hover:scale-125 transition-transform"></div>
-                    Purpose
-                  </span>
-                </button>
-              </Link>
+            <div className="flex-1 flex flex-col justify-start items-center gap-2 px-6">
+              <button
+                onClick={handleClickHome}
+                className="w-full text-white text-xl font-semibold hover:text-emerald-400 transition-all duration-300 py-4 px-6 rounded-xl hover:bg-emerald-400/10 border border-transparent hover:border-emerald-400/30 transform hover:scale-105 group"
+              >
+                <span className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-emerald-400 rounded-full group-hover:scale-125 transition-transform"></div>
+                  Home
+                </span>
+              </button>
 
               <button
-                onClick={() => {
-                  scrollToSection("about");
-                  setMenuOpen(false);
-                }}
+                onClick={() => handleNavClick("search")}
+                className="w-full text-white text-xl font-semibold hover:text-emerald-400 transition-all duration-300 py-4 px-6 rounded-xl hover:bg-emerald-400/10 border border-transparent hover:border-emerald-400/30 transform hover:scale-105 group"
+              >
+                <span className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-emerald-400 rounded-full group-hover:scale-125 transition-transform"></div>
+                  Search
+                </span>
+              </button>
+
+              <button
+                onClick={() => handleNavClick("purpose")}
+                className="w-full text-white text-xl font-semibold hover:text-emerald-400 transition-all duration-300 py-4 px-6 rounded-xl hover:bg-emerald-400/10 border border-transparent hover:border-emerald-400/30 transform hover:scale-105 group"
+              >
+                <span className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-emerald-400 rounded-full group-hover:scale-125 transition-transform"></div>
+                  Purpose
+                </span>
+              </button>
+
+              <button
+                onClick={() => handleNavClick("about")}
                 className="w-full text-white text-xl font-semibold hover:text-emerald-400 transition-all duration-300 py-4 px-6 rounded-xl hover:bg-emerald-400/10 border border-transparent hover:border-emerald-400/30 transform hover:scale-105 group"
               >
                 <span className="flex items-center gap-3">
@@ -203,12 +282,11 @@ export default function NavBar({ setLoginComponentVisible, scrollToSection }) {
                 </span>
               </button>
 
-              {/* Mobile Login Button */}
               <div className="mt-8 w-full px-6">
                 <button
                   onClick={() => {
-                    setMenuOpen(false);
                     setLoginComponentVisible(true);
+                    setMenuOpen(false);
                   }}
                   className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 px-8 py-4 rounded-xl text-white font-semibold text-lg hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-emerald-400/30 group overflow-hidden relative"
                 >
@@ -218,7 +296,6 @@ export default function NavBar({ setLoginComponentVisible, scrollToSection }) {
               </div>
             </div>
 
-            {/* Footer */}
             <div className="p-6 border-t border-emerald-400/20 bg-black/40">
               <p className="text-center text-white/50 text-sm">
                 Garden of Memories Memorial Park

@@ -1,16 +1,20 @@
-from flask import Blueprint, jsonify
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask import Blueprint, jsonify, make_response, request
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from Models.database import get_connection
+import json, urllib.parse
+from itsdangerous import BadSignature, URLSafeSerializer
+from Config.config import Config
 
 admin_bp = Blueprint("admin_auth", __name__)
 
-@admin_bp.route('/dashboard', methods=['GET'])
+@admin_bp.route("/dashboard", methods=["GET"])
 @jwt_required(locations=["cookies"])
-def get_current_admin():
-    current_user = get_jwt_identity()
-    return jsonify({"admin_username": current_user}), 200
+def admin_info():
+    return jsonify({"status": "Authenticated"})
 
-@admin_bp.route("/users", methods=["GET"])
+
+
+""" @admin_bp.route("/users", methods=["GET"])
 @jwt_required(locations=["cookies"])
 def get_all_users():
     try:
@@ -35,4 +39,4 @@ def get_all_users():
         return jsonify({"error":  str(e)}), 500
     finally:
         cursor.close()
-        conn.close()
+        conn.close() """

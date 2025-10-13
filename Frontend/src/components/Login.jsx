@@ -1,6 +1,5 @@
 import { useAuth } from "../context/AuthContext";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 import { FaEye, FaEyeSlash, FaUser, FaLock } from "react-icons/fa";
@@ -16,21 +15,20 @@ export default function Login({ setIsVisible, isVisible }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const { login } = useAuth();
+  const { login, user } = useAuth(); // ✅ Get user from context
 
-  // login func
+  // ✅ FIXED: login func - use the AuthContext login properly
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setError(false);
 
     try {
-      const res = await axios.post("http://localhost:5000/login", loginData, {
-        withCredentials: true,
-      });
-      login(true);
-      navigate(res.data.navigate);
+      const result = await login(loginData);
+      navigate(result.navigate);
     } catch (error) {
-      console.error("Login failed:", error.response?.data || error.message);
+      console.error("Login failed:", error);
+      console.error("Error response:", error.response?.data);
       setError(true);
     } finally {
       setIsLoading(false);

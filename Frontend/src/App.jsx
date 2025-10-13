@@ -11,7 +11,7 @@ import MainLayout from "./pages/MainLayout ";
 
 // Pages
 import Register from "./pages/Auth/Register";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/Admin/Dashboard";
 import Home from "./pages/Home/Home";
 import Search from "./pages/Memorial/Memorial";
 import PurposeMain from "./pages/Purpose/PurposeMain";
@@ -40,17 +40,8 @@ export default function App() {
           </Route>
 
           {/* Public routes without main layout (like auth pages) */}
-          <Route
-            path="/register"
-            element={
-              <PublicRoute>
-                <Register />
-              </PublicRoute>
-            }
-          />
-
-          {/* Protected routes */}
           <Route element={<ProtectedRoute />}>
+            <Route path="/register" element={<Register />} />
             <Route path="/dashboard" element={<Dashboard />} />
           </Route>
 
