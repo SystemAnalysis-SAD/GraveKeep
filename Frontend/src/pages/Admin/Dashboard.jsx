@@ -7,14 +7,20 @@ export default function Dashboard() {
   const { user, logout, loading } = useAuth();
   const [dashboardLoading, setDashboardLoading] = useState(true);
   const [dashboardData, setDashboardData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
-      await logout();
-      navigate("/");
+      setIsLoading(true);
+      setTimeout(async () => {
+        await logout();
+        navigate("/");
+      }, 1000);
     } catch (err) {
       console.error("Logout failed:", err);
+      setIsLoading(false);
       navigate("/");
     }
   };
@@ -74,7 +80,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="h-screen w-full bg-indigo-50 flex flex-col items-center justify-center">
+    <div className="h-screen w-full bg-indigo-50 text-slate-700 flex flex-col items-center justify-center">
       <h1 className="text-3xl font-bold">Dashboard</h1>
 
       <p className="mt-4 text-xl">Welcome, {user.username}!</p>
@@ -89,12 +95,16 @@ export default function Dashboard() {
         </div>
       )}
 
-      <button
-        onClick={handleLogout}
-        className="mt-6 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-      >
-        Logout
-      </button>
+      {isLoading ? (
+        <span className="loading loading-spinner loading-lg"></span>
+      ) : (
+        <button
+          onClick={handleLogout}
+          className="mt-6 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors duration-300"
+        >
+          Logout
+        </button>
+      )}
     </div>
   );
 }

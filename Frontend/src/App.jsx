@@ -15,8 +15,9 @@ import Dashboard from "./pages/Admin/Dashboard";
 import Home from "./pages/Home/Home";
 import Search from "./pages/Memorial/Memorial";
 import PurposeMain from "./pages/Purpose/PurposeMain";
-import NotFound from "./pages/404/NotFound";
+import NotFound from "./pages/error/NotFound";
 import Custom404 from "./Notfound";
+import Forbidden from "./pages/error/Forbidden";
 // import MemorialMain from "./pages/Memorial/Memorial_Main";
 
 export default function App() {
@@ -40,13 +41,14 @@ export default function App() {
           </Route>
 
           {/* Public routes without main layout (like auth pages) */}
-          <Route element={<ProtectedRoute />}>
+          <Route element={<ProtectedRoute requiredRole={"Admin"} />}>
             <Route path="/register" element={<Register />} />
             <Route path="/dashboard" element={<Dashboard />} />
           </Route>
 
           {/* 404 route */}
           <Route path="*" element={<Custom404 />} />
+          <Route path="/not-authoried" element={<Forbidden />} />
         </Routes>
       </Hash>
     </AuthProvider>

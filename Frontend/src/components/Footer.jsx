@@ -1,6 +1,16 @@
 import { FaPhone, FaEnvelope, FaMapMarkedAlt, FaLeaf } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
+  const handleScrollHome = (e) => {
+    e.preventDefault();
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <div className="py-12 px-4 bg-black border-t border-gray-800">
       <div className="max-w-6xl mx-auto">
@@ -19,33 +29,20 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2 text-gray-400 text-sm">
-              <li>
-                <a
-                  href="/"
-                  className="hover:text-emerald-400 transition-colors"
-                >
-                  Home
-                </a>
+              <li onClick={handleScrollHome} className="cursor-pointer">
+                <a className="hover:text-emerald-400 transition-colors">Home</a>
               </li>
               <li>
-                <a
-                  href="/memorial"
+                <Link
+                  to={"/memorial/search"}
                   className="hover:text-emerald-400 transition-colors"
                 >
                   Search
-                </a>
+                </Link>
               </li>
               <li>
                 <a
                   href="/about"
-                  className="hover:text-emerald-400 transition-colors"
-                >
-                  About
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/contact"
                   className="hover:text-emerald-400 transition-colors"
                 >
                   Contact

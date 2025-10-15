@@ -25,10 +25,7 @@ export default function NavBar({ setLoginComponentVisible, scrollToSection }) {
       const currentPath = window.location.pathname;
       const currentHash = window.location.hash;
 
-      console.log("Current path:", currentPath, "Current hash:", currentHash);
-
       if (currentPath === "/" && !currentHash) {
-        console.log("Setting default #home");
         // Use both methods for maximum reliability
         window.history.replaceState(null, null, "#home");
         navigate("#home", { replace: true });
@@ -72,8 +69,6 @@ export default function NavBar({ setLoginComponentVisible, scrollToSection }) {
     setMenuOpen(false);
   };
 
-  // Helper to detect if a link is "active"
-  // Helper to detect if a link is "active"
   const isActive = (sectionId) => {
     // If we're on home page
     if (location.pathname === "/") {
@@ -84,11 +79,15 @@ export default function NavBar({ setLoginComponentVisible, scrollToSection }) {
     // If we're NOT on home page
     if (sectionId === "home") {
       // Home is only active when we're not on any specific section route
-      return !location.pathname.includes("/purpose/");
+      return ["/purpose", "/memorial/search"].includes(!location.hash);
     }
 
     if (sectionId === "purpose") {
       return location.pathname.includes("/purpose/");
+    }
+
+    if (sectionId === "search") {
+      return location.pathname.includes("/memorial/search");
     }
 
     return false;

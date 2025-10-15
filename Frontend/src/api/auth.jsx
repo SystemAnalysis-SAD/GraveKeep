@@ -1,7 +1,7 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, replace } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-const ProtectedRoute = () => {
+const ProtectedRoute = ({ requiredRole }) => {
   const { user, loading } = useAuth();
 
   // Show loading while checking authentication
@@ -16,6 +16,10 @@ const ProtectedRoute = () => {
   // Redirect to login if not authenticated
   if (!user) {
     return <Navigate to="/" replace />;
+  }
+
+  if (requiredRole && user.role !== requiredRole) {
+    return <Navigate to={"/not-authoried"} replace />;
   }
 
   return <Outlet />;

@@ -20,6 +20,7 @@ export const AuthProvider = ({ children }) => {
           const decodedData = decodeURIComponent(userDataCookie);
           const userData = JSON.parse(decodedData);
           setUser(userData);
+          console.log(user);
 
           // Check if token is about to expire (within 5 minutes)
           if (userData.token_expires) {
@@ -89,7 +90,7 @@ export const AuthProvider = ({ children }) => {
       if (cookie) {
         const decoded = decodeURIComponent(cookie);
         const parsed = JSON.parse(decoded);
-        setUser(parsed); // ✅ proper object
+        setUser(parsed);
         console.log("User set:", parsed);
       }
 

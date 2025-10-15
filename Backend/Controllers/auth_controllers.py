@@ -54,6 +54,7 @@ def Admin_login():
             identity=str(user["id"]),
             additional_claims={
                 "username": user["admin_user"],
+                "role": user["role"],
                 "type": "admin"
             },
             expires_delta=datetime.timedelta(minutes=15)
@@ -64,6 +65,7 @@ def Admin_login():
             identity=str(user["id"]),
             additional_claims={
                 "username": user["admin_user"],
+                "role": user["role"],
                 "type": "admin_refresh"
             },
             expires_delta=datetime.timedelta(days=7)
@@ -73,6 +75,7 @@ def Admin_login():
         user_data = {
             "admin_id": user["id"],
             "username": user["admin_user"],
+            "role": user["role"],
             "navigate": "/dashboard",
             "token_expires": (datetime.datetime.utcnow() + datetime.timedelta(minutes=15)).timestamp()
         }
@@ -127,6 +130,7 @@ def refresh_tokens():
             identity=current_id,
             additional_claims={
                 "username": claims.get("username"),
+                "role": claims.get["role"],
                 "type": "admin"
             },
             expires_delta=datetime.timedelta(minutes=15)
@@ -136,6 +140,7 @@ def refresh_tokens():
         user_data = {
             "admin_id": current_id,
             "username": claims.get("username"),
+            "role": claims.get["role"],
             "token_expires": (datetime.datetime.utcnow() + datetime.timedelta(minutes=15)).timestamp()
         }
         

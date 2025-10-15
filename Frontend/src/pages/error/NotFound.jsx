@@ -1,8 +1,22 @@
 import { motion } from "framer-motion";
 import { FaHome, FaSearch, FaGhost, FaArrowLeft } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 export default function NotFound() {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/");
+    } catch (err) {
+      console.error("Logout failed:", err);
+      navigate("/");
+    }
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
