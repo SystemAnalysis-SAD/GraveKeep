@@ -15,9 +15,22 @@ export default function Login({ setIsVisible, isVisible }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const { login, user } = useAuth(); // ✅ Get user from context
+  const [internalIsVisible, setInternalIsVisible] = useState(isVisible);
+  const { login } = useAuth();
 
-  // ✅ FIXED: login func - use the AuthContext login properly
+  // Sync with external isVisible prop
+  useEffect(() => {
+    if (isVisible) {
+      setInternalIsVisible(true);
+    }
+  }, [isVisible]);
+
+  const handleExitComplete = () => {
+    if (!internalIsVisible) {
+      setIsVisible(false);
+    }
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -28,7 +41,6 @@ export default function Login({ setIsVisible, isVisible }) {
       navigate(result.navigate);
     } catch (error) {
       console.error("Login failed:", error);
-      console.error("Error response:", error.response?.data);
       setError(true);
     } finally {
       setIsLoading(false);
@@ -40,66 +52,68 @@ export default function Login({ setIsVisible, isVisible }) {
     setLoginData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // ESC key to close modal
   useEffect(() => {
     const handleEscButton = (e) => {
-      if (e.key === "Escape") {
-        setIsVisible(false);
-      }
+      if (e.key === "Escape") triggerClose();
     };
-
-    if (isVisible) {
-      window.addEventListener("keydown", handleEscButton);
-    }
-
+    if (internalIsVisible) window.addEventListener("keydown", handleEscButton);
     return () => window.removeEventListener("keydown", handleEscButton);
-  }, [isVisible, setIsVisible]);
+  }, [internalIsVisible]);
 
-  // disable scroll when on component
+  // Disable scroll when modal open
   useEffect(() => {
-    if (isVisible) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-
+    document.body.style.overflow = internalIsVisible ? "hidden" : "auto";
     return () => (document.body.style.overflow = "auto");
-  }, [isVisible]);
+  }, [internalIsVisible]);
 
-  // Don't render anything if not visible
-  if (!isVisible) return null;
+  // Close handler
+  const triggerClose = () => {
+    setInternalIsVisible(false);
+  };
 
   return (
-    <AnimatePresence mode="wait">
-      {isVisible && (
-        <>
+    <AnimatePresence mode="wait" onExitComplete={handleExitComplete}>
+      {internalIsVisible && (
+        <motion.div
+          key="login-modal"
+          className="fixed inset-0 z-[200]"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ y: -200 }}
+          transition={{ duration: 0.3 }}
+        >
           {/* Backdrop */}
           <motion.div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200]"
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            onClick={() => setIsVisible(false)}
+            onClick={triggerClose}
           />
 
-          {/* Modal */}
+          {/* Modal container */}
           <motion.div
-            className="fixed inset-0 z-[201] flex items-center justify-center p-4"
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            className="fixed inset-0 flex items-center justify-center p-4"
+            initial={{ opacity: 0, scale: 0.9, y: -200 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: -20 }}
+            exit={{ opacity: 0, scale: 0.9, y: -200 }}
             transition={{
               duration: 0.3,
               type: "spring",
               damping: 25,
               stiffness: 300,
             }}
-            onClick={() => setIsVisible(false)}
+            onClick={triggerClose}
           >
-            <div className="w-full max-w-md relative">
+            <div
+              className="w-full max-w-md relative"
+              onClick={(e) => e.stopPropagation()}
+            >
               {/* Close Button */}
               <motion.button
-                onClick={() => setIsVisible(false)}
+                onClick={triggerClose}
                 className="absolute -top-12 right-0 p-2 cursor-pointer text-gray-300 hover:text-white transition-colors duration-200 z-10"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
@@ -109,7 +123,6 @@ export default function Login({ setIsVisible, isVisible }) {
 
               {/* Login Card */}
               <motion.div
-                onClick={(e) => e.stopPropagation()}
                 className="bg-gray-800/50 backdrop-blur-lg rounded-2xl border border-gray-700/50 shadow-2xl"
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -120,15 +133,6 @@ export default function Login({ setIsVisible, isVisible }) {
                   {/* Header */}
                   <div className="text-center mb-6">
                     <div className="flex items-center justify-center gap-3 mb-4">
-                      <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{ delay: 0.2, type: "spring" }}
-                      >
-                        <div className="relative">
-                          <div className="absolute -inset-1 bg-gray-400/20 rounded-full blur-sm"></div>
-                        </div>
-                      </motion.div>
                       <motion.h1
                         className="text-4xl font-bold bg-gradient-to-r from-emerald-400 to-green-300 bg-clip-text text-transparent"
                         initial={{ opacity: 0, y: 10 }}
@@ -256,7 +260,7 @@ export default function Login({ setIsVisible, isVisible }) {
               </motion.div>
             </div>
           </motion.div>
-        </>
+        </motion.div>
       )}
     </AnimatePresence>
   );
